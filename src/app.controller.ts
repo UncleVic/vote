@@ -5,7 +5,6 @@ import { AuthService } from './auth/auth.service';
 import { VoteService } from './vote/vote.service';
 import { AccessKeyDto } from './auth/accessKey.dto';
 import { VoteDto } from './vote/vote.dto';
-import { VoteModule } from './vote/vote.module';
 
 @Controller()
 export class AppController {
@@ -20,17 +19,18 @@ export class AppController {
     return this.authService.login(accessKey);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   ping(): string {
     return this.appService.ping();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('result')
   getResult() {
     return this.voteService.getResults();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('vote')
   addVote(@Body() vote: VoteDto) {
     return this.voteService.addVote(vote.voteFor);
