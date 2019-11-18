@@ -3,6 +3,9 @@ import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 import { VoteService } from './vote/vote.service';
+import { AccessKeyDto } from './auth/accessKey.dto';
+import { VoteDto } from './vote/vote.dto';
+import { VoteModule } from './vote/vote.module';
 
 @Controller()
 export class AppController {
@@ -13,14 +16,14 @@ export class AppController {
   ) { }
 
   @Post('get-token')
-  getToken(@Body() accessKey) {
+  getToken(@Body() accessKey: AccessKeyDto) {
     return this.authService.login(accessKey);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  ping(): string {
+    return this.appService.ping();
   }
 
   @Get('result')
@@ -29,7 +32,7 @@ export class AppController {
   }
 
   @Post('vote')
-  addVote(@Body() vote) {
+  addVote(@Body() vote: VoteDto) {
     return this.voteService.addVote(vote.voteFor);
   }
 }
