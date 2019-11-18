@@ -25,7 +25,7 @@ export class AppController {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Get('result')
+  @Get('results')
   getResult() {
     return this.voteService.getResults();
   }
